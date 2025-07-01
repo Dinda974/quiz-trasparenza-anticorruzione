@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Trasparenza e Anticorruzione - Avv.ta Adriana Augenti</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Dinda974/CNC-asset/refs/heads/main/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #1e293b 0%, #1e40af 50%, #3730a3 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .landing-page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .landing-page::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.2;
+        }
+
+        .landing-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            color: white;
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 9999px;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .main-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .gradient-text {
+            background: linear-gradient(to right, #60a5fa, #67e8f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: #bfdbfe;
+            margin-bottom: 0.5rem;
+        }
+
+        .author {
+            margin-bottom: 2rem;
+        }
+
+        .author-logo {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #ddd6fe;
+        }
+
+        .author-title {
+            color: #93c5fd;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem;
+            display: block;
+        }
+
+        .cta-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cta-button {
+            background: linear-gradient(to right, #2563eb, #4f46e5);
+            color: white;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            background: linear-gradient(to right, #1d4ed8, #4338ca);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .module-badge {
+            background: #4f46e5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .question-counter {
+            text-align: right;
+        }
+
+        .counter-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .counter-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #4f46e5;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #4f46e5;
+            transition: width 0.3s ease;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        .difficulty-badge {
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 0.75rem;
+            font-weight: 500;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            margin-left: 1rem;
+        }
+
+        .options-container {
+            margin-bottom: 2rem;
+        }
+
+        .option-button {
+            width: 100%;
+            padding: 1rem;
+            text-align: left;
+            border: 2px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            color: #374151;
+            cursor: pointer;
+            margin-bottom: 1rem;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .option-button:hover:not(:disabled) {
+            border-color: #6366f1;
+            background: #f0f9ff;
+        }
+
+        .option-button.selected {
+            border-color: #4f46e5;
+            background: #eef2ff;
+            color: #3730a3;
+        }
+
+        .option-button.correct {
+            border-color: #10b981;
+            background: #f0fdf4;
+            color: #065f46;
+        }
+
+        .option-button.incorrect {
+            border-color: #ef4444;
+            background: #fef2f2;
+            color: #991b1b;
+        }
+
+        .option-button.disabled {
+            background: #f9fafb;
+            color: #6b7280;
+        }
+
+        .explanation {
+            background: #eff6ff;
+            border-left: 4px solid #3b82f6;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .explanation h3 {
+            color: #1e40af;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation p {
+            color: #1e40af;
+            line-height: 1.6;
+        }
+
+        .next-button {
+            background: #4f46e5;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s ease;
+            margin-left: auto;
+        }
+
+        .next-button:hover {
+            background: #4338ca;
+        }
+
+        .results-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .score-card {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .score-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            color: #4f46e5;
+        }
+
+        .score-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .score-number {
+            font-size: 4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .score-excellent { color: #10b981; }
+        .score-good { color: #3b82f6; }
+        .score-fair { color: #f59e0b; }
+        .score-poor { color: #ef4444; }
+
+        .score-percentage {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 1rem;
+        }
+
+        .score-message-card {
+            background: #f9fafb;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .score-message-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .wrong-answers {
+            margin-bottom: 2rem;
+        }
+
+        .wrong-answer-item {
+            border-left: 4px solid #ef4444;
+            background: #fef2f2;
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1.5rem;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            background: #ef4444;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            flex-shrink: 0;
+        }
+
+        .answer-comparison {
+            display: grid;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .user-answer, .correct-answer {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .user-answer {
+            border-left: 4px solid #ef4444;
+        }
+
+        .correct-answer {
+            border-left: 4px solid #10b981;
+        }
+
+        .answer-label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .user-answer .answer-label {
+            color: #dc2626;
+        }
+
+        .correct-answer .answer-label {
+            color: #059669;
+        }
+
+        .detailed-explanation {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .explanation-label {
+            font-size: 0.875rem;
+            color: #1d4ed8;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .explanation-text {
+            color: #1e40af;
+            line-height: 1.6;
+        }
+
+        .perfect-score {
+            background: #f0fdf4;
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .perfect-icon {
+            width: 64px;
+            height: 64px;
+            margin: 0 auto 1rem;
+            color: #10b981;
+        }
+
+        .reset-button {
+            background: #4f46e5;
+            color: white;
+            font-weight: 600;
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background 0.2s ease;
+        }
+
+        .reset-button:hover {
+            background: #4338ca;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .footer {
+            background: #1f2937;
+            color: #d1d5db;
+            padding: 2rem 0 1rem 0;
+            border-top: 1px solid #374151;
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .footer-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-logo {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            display: block;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #f9fafb;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-subtitle {
+            font-size: 0.9rem;
+            color: #9ca3af;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link {
+            color: #d1d5db !important;
+            text-decoration: none !important;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+            cursor: pointer !important;
+            z-index: 999 !important;
+            position: relative !important;
+            display: inline-block;
+            padding: 5px 10px;
+        }
+
+        .footer-link:hover {
+            color: #60a5fa !important;
+            text-decoration: underline !important;
+        }
+
+        .footer-link:visited {
+            color: #d1d5db !important;
+        }
+
+        .privacy-notice {
+            background: #374151;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            text-align: left;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .privacy-title {
+            font-weight: 600;
+            color: #f9fafb;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #4b5563;
+            padding-top: 1rem;
+            font-size: 0.85rem;
+            color: #9ca3af;
+        }
+
+        .credits {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .heart {
+            color: #ef4444;
+            font-size: 1rem;
+        }
+
+        .contact-link {
+            color: #d1d5db !important;
+            text-decoration: none !important;
+            font-size: 1rem !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            z-index: 1000 !important;
+            position: relative !important;
+            display: inline-block !important;
+            padding: 8px 12px !important;
+            border-radius: 6px !important;
+            transition: all 0.3s ease !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        }
+
+        .contact-link:hover {
+            color: #60a5fa !important;
+            background: rgba(96, 165, 250, 0.1) !important;
+            border-color: rgba(96, 165, 250, 0.3) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .contact-link:visited {
+            color: #d1d5db !important;
+        }
+
+        .contact-link:active {
+            color: #60a5fa !important;
+        }
+
+        @media (max-width: 768px) {
+            .footer-main {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-section {
+                min-width: auto;
+            }
+            
+            .privacy-notice {
+                text-align: left;
+                padding: 0.75rem;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 1rem;
+            }
+            
+            .card {
+                padding: 1.5rem;
+            }
+            
+            .quiz-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .quiz-title {
+                display: none !important;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .author-logo {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Landing Page -->
+    <div id="landing-page" class="landing-page">
+        <div class="landing-content">
+            <div class="badge">
+                <svg class="icon" style="margin-right: 12px; color: #bfdbfe;" viewBox="0 0 24 24">
+                    <path d="M16 11V7a4 4 0 0 0-8 0v4M5 11h14l-1 7H6l-1-7Z"/>
+                </svg>
+                <span style="color: #e0f2fe;">Formazione Giuridica Specializzata</span>
+            </div>
+            
+            <h1 class="main-title">
+                Trasparenza, Integrità e 
+                <span class="gradient-text">Partecipazione</span>
+            </h1>
+            
+            <p class="subtitle">Quiz di Valutazione Post-Seminario</p>
+            
+            <div class="author">
+                <img src="https://raw.githubusercontent.com/Dinda974/CNC-asset/main/logoAA.png" alt="Logo Avv.ta Adriana Augenti" class="author-logo">
+                <div class="author-name">Avv.ta Adriana Augenti</div>
+                <div class="author-title">Privacy, Legal Tech e AI Ethics - Data Protection Officer & Trainer</div>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <svg class="feature-icon" style="color: #60a5fa;" viewBox="0 0 24 24">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                    </svg>
+                    <h3 style="color: white; font-weight: 600; margin-bottom: 0.5rem;">7 Domande Avanzate</h3>
+                    <p style="color: #bfdbfe; font-size: 0.875rem;">Casi pratici e scenari complessi per testare la comprensione operativa</p>
+                </div>
+                
+                <div class="feature-card">
+                    <svg class="feature-icon" style="color: #34d399;" viewBox="0 0 24 24">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+                        <circle cx="9" cy="7" r="4"/>
+                        <path d="m19 8 2 2-2 2"/>
+                        <path d="m17 8-2 2 2 2"/>
+                    </svg>
+                    <h3 style="color: white; font-weight: 600; margin-bottom: 0.5rem;">Feedback Dettagliato</h3>
+                    <p style="color: #bfdbfe; font-size: 0.875rem;">Spiegazioni approfondite per ogni risposta e analisi degli errori</p>
+                </div>
+                
+                <div class="feature-card">
+                    <svg class="feature-icon" style="color: #fbbf24;" viewBox="0 0 24 24">
+                        <circle cx="12" cy="8" r="6"/>
+                        <path d="m9 12 2 2 4-4"/>
+                        <path d="M21 12c.552 0 1.047-.443.894-.989a6 6 0 0 0-11.788 0c-.153.546.342.989.894.989h10z"/>
+                    </svg>
+                    <h3 style="color: white; font-weight: 600; margin-bottom: 0.5rem;">Valutazione Professionale</h3>
+                    <p style="color: #bfdbfe; font-size: 0.875rem;">Assessment delle competenze con livelli di padronanza differenziati</p>
+                </div>
+            </div>
+
+            <div class="cta-section">
+                <p style="color: #bfdbfe; margin-bottom: 2rem; font-size: 1.125rem;">
+                    Metti alla prova la tua conoscenza della normativa su trasparenza amministrativa, 
+                    FOIA, whistleblowing e sistema ANAC attraverso casi pratici e scenari reali.
+                </p>
+                
+                <button onclick="startQuiz()" class="cta-button">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <polygon points="5,3 19,12 5,21 5,3"/>
+                    </svg>
+                    <span>Inizia il Quiz</span>
+                </button>
+                
+                <p style="color: #93c5fd; font-size: 0.875rem; margin-top: 1rem;">
+                    Tempo stimato: 15-20 minuti
+                </p>
+            </div>
+        </div>
+        
+        <!-- Footer per Landing Page -->
+        <footer class="footer">
+            <div class="footer-content">
+                <!-- Privacy Notice -->
+                <div class="privacy-notice">
+                    <div class="privacy-title">🔒 Informazioni sulla Privacy</div>
+                    <p><strong>Questo quiz non raccoglie, memorizza o trasmette alcun dato personale.</strong> 
+                    Tutte le risposte e i risultati rimangono esclusivamente nel tuo browser locale e non vengono mai inviati a server esterni. 
+                    Il quiz utilizza solo tecnologie lato client (HTML, CSS, JavaScript) per garantire la massima privacy degli utenti. 
+                    Non vengono utilizzati cookie di tracciamento, analytics o sistemi di profilazione.</p>
+                </div>
+
+                <!-- Contacts and Credits -->
+                <div style="text-align: center; padding: 1.5rem 0;">
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                        <img src="https://raw.githubusercontent.com/Dinda974/CNC-asset/main/logoAA.png" alt="Logo Avv.ta Adriana Augenti" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.1);">
+                        <div>
+                            <h3 style="color: #f9fafb; font-size: 1.1rem; font-weight: 600; margin: 0;">Avv.ta Adriana Augenti</h3>
+                            <p style="color: #9ca3af; font-size: 0.9rem; margin: 0;">Esperta in Diritto Amministrativo e Anticorruzione</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <a href="mailto:avv.aaugenti@gmail.com" class="contact-link">
+                            📧 Contattami
+                        </a>
+                    </div>
+                    
+                    <div class="credits">
+                        <span>Sviluppato con</span>
+                        <span class="heart">♥</span>
+                        <span>per la formazione giuridica - © 2025 Avv.ta Adriana Augenti</span>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Quiz Page -->
+    <div id="quiz-page" class="hidden">
+        <div class="container">
+            <div class="card fade-in">
+                <div class="quiz-header">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <div id="current-module" class="module-badge">Modulo 1</div>
+                        <div style="display: none;" class="quiz-title">
+                            <h1 style="font-size: 1.25rem; font-weight: 700; color: #1f2937;">Quiz di Valutazione</h1>
+                            <p style="font-size: 0.875rem; color: #6b7280;">Avv.ta Adriana Augenti</p>
+                        </div>
+                    </div>
+                    <div class="question-counter">
+                        <div class="counter-label">Domanda</div>
+                        <div class="counter-number">
+                            <span id="current-question-num">1</span> / <span id="total-questions">7</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div id="progress-fill" class="progress-fill" style="width: 14.3%"></div>
+                </div>
+            </div>
+
+            <div class="card fade-in">
+                <div style="display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem;">
+                    <h2 id="question-text" class="question-text">
+                        <!-- Question will be inserted here -->
+                    </h2>
+                    <span class="difficulty-badge">Avanzata</span>
+                </div>
+
+                <div id="options-container" class="options-container">
+                    <!-- Options will be inserted here -->
+                </div>
+
+                <div id="explanation-container" class="explanation hidden">
+                    <h3>Spiegazione dettagliata:</h3>
+                    <p id="explanation-text"></p>
+                </div>
+
+                <div id="next-button-container" class="hidden" style="text-align: right;">
+                    <button onclick="nextQuestion()" class="next-button">
+                        <span id="next-button-text">Prossima Domanda</span>
+                        <svg class="icon" viewBox="0 0 24 24">
+                            <polyline points="9,18 15,12 9,6"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Results Page -->
+    <div id="results-page" class="hidden">
+        <div class="container results-container">
+            <div class="card score-card fade-in">
+                <svg class="score-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="6"/>
+                    <path d="m9 12 2 2 4-4"/>
+                    <path d="M21 12c.552 0 1.047-.443.894-.989a6 6 0 0 0-11.788 0c-.153.546.342.989.894.989h10z"/>
+                </svg>
+                <h2 class="score-title">Valutazione Completata</h2>
+                <div class="score-number">
+                    <span id="final-score" class="score-excellent">0</span>
+                    <span style="color: #9ca3af;">/7</span>
+                </div>
+                <p class="score-percentage">
+                    <span id="percentage">0</span>% di risposte corrette
+                </p>
+                
+                <div class="score-message-card">
+                    <h3 id="score-title" class="score-message-title score-excellent">Eccellente Padronanza!</h3>
+                    <p id="score-message" style="color: #374151; line-height: 1.6;">
+                        <!-- Score message will be inserted here -->
+                    </p>
+                </div>
+            </div>
+
+            <div id="wrong-answers-section" class="card wrong-answers">
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: #ef4444; margin-bottom: 1.5rem; display: flex; align-items: center;">
+                    <svg class="icon" style="margin-right: 0.75rem;" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="m15 9-6 6"/>
+                        <path d="m9 9 6 6"/>
+                    </svg>
+                    <span id="wrong-answers-title">Analisi degli Errori</span>
+                </h3>
+                
+                <div id="wrong-answers-container">
+                    <!-- Wrong answers will be inserted here -->
+                </div>
+            </div>
+
+            <div id="perfect-score" class="perfect-score hidden">
+                <svg class="perfect-icon" viewBox="0 0 24 24">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                    <polyline points="22,4 12,14.01 9,11.01"/>
+                </svg>
+                <h3 style="font-size: 1.5rem; font-weight: 700; color: #059669; margin-bottom: 1rem;">Prestazione Perfetta!</h3>
+                <p style="color: #047857; font-size: 1.125rem;">
+                    Complimenti! Hai risposto correttamente a tutte le domande, dimostrando una padronanza eccellente 
+                    della materia trattata nel seminario.
+                </p>
+            </div>
+
+            <div style="text-align: center;">
+                <button onclick="resetQuiz()" class="reset-button">
+                    <svg class="icon" viewBox="0 0 24 24">
+                        <polyline points="1,4 1,10 7,10"/>
+                        <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/>
+                    </svg>
+                    <span>Ricomincia il Quiz</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Quiz State
+        let currentQuestion = 0;
+        let selectedAnswers = {};
+        let showExplanation = false;
+        let score = 0;
+
+        // Questions Data
+        const questions = [
+            {
+                id: 1,
+                module: "Modulo 1",
+                question: "Un Comune ha omesso di pubblicare le dichiarazioni patrimoniali del Sindaco nella sezione 'Amministrazione Trasparente'. Un cittadino presenta istanza di accesso civico semplice. Quale delle seguenti affermazioni è corretta?",
+                options: [
+                    "L'amministrazione deve prima valutare se sussiste un interesse qualificato del richiedente",
+                    "L'amministrazione deve comunicare il documento solo al richiedente mantenendo riservata la pubblicazione",
+                    "L'amministrazione deve pubblicare il documento sul sito e comunicare al richiedente l'avvenuta pubblicazione",
+                    "L'amministrazione può negare l'accesso per tutelare la privacy del Sindaco"
+                ],
+                correct: 2,
+                explanation: "L'accesso civico semplice (art. 5, c. 1, D.Lgs. 33/2013) ha funzione 'riparatoria': obbliga l'amministrazione a pubblicare il dato omesso sul sito istituzionale e a comunicare al richiedente l'avvenuta pubblicazione. Non richiede interesse qualificato e prevale sulla privacy quando esiste obbligo di pubblicazione."
+            },
+            {
+                id: 2,
+                module: "Modulo 1",
+                question: "Con l'entrata in vigore del nuovo Codice dei Contratti Pubblici (D.Lgs. 36/2023), quale principio governa la pubblicazione dei dati sui contratti nella sezione 'Bandi di gara e contratti'?",
+                options: [
+                    "Tutti i dati devono essere pubblicati integralmente sul sito dell'ente come in precedenza",
+                    "Sistema 'doppio binario': trasmissione principale alla BDNCP e pubblicazione residua sul sito dell'ente",
+                    "Eliminazione completa degli obblighi di trasparenza sui contratti pubblici",
+                    "Pubblicazione solo per contratti sopra le soglie europee"
+                ],
+                correct: 1,
+                explanation: "Il D.Lgs. 36/2023 ha introdotto un sistema a 'doppio binario': la maggior parte dei dati viene trasmessa alla Banca Dati Nazionale dei Contratti Pubblici (BDNCP), mentre alcuni documenti specifici (individuati da ANAC con Delibera 264/2023) devono ancora essere pubblicati direttamente sul sito dell'ente."
+            },
+            {
+                id: 3,
+                module: "Modulo 2",
+                question: "Un giornalista richiede tramite FOIA tutti i verbali delle riunioni di Giunta degli ultimi due anni di un Comune. L'amministrazione nega l'accesso invocando genericamente la 'segretezza delle deliberazioni'. La decisione è corretta?",
+                options: [
+                    "Sì, le deliberazioni di Giunta sono sempre coperte da segreto",
+                    "No, deve essere effettuato un bilanciamento caso per caso con motivazione rafforzata del pregiudizio concreto",
+                    "Sì, ma solo se il Comune ha meno di 15.000 abitanti",
+                    "No, perché il FOIA non ammette mai limitazioni per interesse pubblico"
+                ],
+                correct: 1,
+                explanation: "L'art. 5-bis del D.Lgs. 33/2013 richiede un bilanciamento tra trasparenza e tutela degli interessi protetti. La giurisprudenza del Consiglio di Stato impone una motivazione rafforzata che dimostri il pregiudizio concreto e probabile. Il generico richiamo alla segretezza non è sufficiente."
+            },
+            {
+                id: 4,
+                module: "Modulo 3",
+                question: "Un dipendente comunale scopre che il dirigente dell'ufficio tecnico ha sistematicamente favorito una ditta nelle procedure sotto soglia. Vuole segnalare ma teme ritorsioni. Secondo il D.Lgs. 24/2023, può rivolgersi direttamente ad ANAC?",
+                options: [
+                    "Sì, sempre e senza condizioni particolari",
+                    "No, deve prima utilizzare obbligatoriamente il canale interno",
+                    "Sì, se ha fondati motivi di ritenere che una segnalazione interna comporterebbe rischio di ritorsione",
+                    "Sì, ma solo se il Comune non ha attivato alcun canale interno"
+                ],
+                correct: 2,
+                explanation: "L'art. 7 del D.Lgs. 24/2023 stabilisce condizioni tassative per il ricorso al canale esterno ANAC. Tra queste, il 'fondato motivo di ritenere che una segnalazione interna comporterebbe rischio di ritorsione' è una delle condizioni che legittima il ricorso diretto al canale esterno."
+            },
+            {
+                id: 5,
+                module: "Modulo 4",
+                question: "Nell'implementazione del PIAO, un RPCT deve valutare il rischio corruttivo per il processo 'Concessione contributi economici'. Quale sequenza metodologica è corretta secondo le linee guida ANAC?",
+                options: [
+                    "Identificazione eventi rischiosi → Analisi del contesto → Mappatura del processo → Valutazione",
+                    "Mappatura del processo → Identificazione eventi rischiosi → Analisi probabilità/impatto → Definizione misure",
+                    "Analisi contesto → Mappatura processo → Identificazione/Valutazione rischi → Trattamento rischi",
+                    "Definizione misure → Mappatura processo → Valutazione rischi → Monitoraggio"
+                ],
+                correct: 2,
+                explanation: "Il PNA 2019 e i suoi aggiornamenti stabiliscono questa sequenza: 1) Analisi del contesto (esterno/interno), 2) Mappatura dei processi, 3) Identificazione e Valutazione del rischio, 4) Trattamento del rischio (definizione misure). È un processo ciclico che deve essere aggiornato annualmente."
+            },
+            {
+                id: 6,
+                module: "Modulo 5",
+                question: "Un RPCT riceve una richiesta di riesame per diniego di accesso civico generalizzato. Contemporaneamente, deve gestire una segnalazione di whistleblowing che coinvolge lo stesso ufficio. Come deve procedere per evitare conflitti?",
+                options: [
+                    "Deve astenersi da entrambi i procedimenti e delegare a un sostituto",
+                    "Può gestire entrambi i procedimenti separatamente mantenendo la riservatezza del whistleblowing",
+                    "Deve sospendere il riesame fino alla conclusione dell'istruttoria sulla segnalazione",
+                    "Deve informare il richiedente FOIA dell'esistenza della segnalazione"
+                ],
+                correct: 1,
+                explanation: "Il RPCT può gestire entrambi i procedimenti poiché sono giuridicamente distinti, ma deve garantire la massima riservatezza della segnalazione di whistleblowing (art. 12, D.Lgs. 24/2023). L'istruttoria sulla segnalazione non può influenzare la decisione sul riesame FOIA, che ha criteri e tempi propri."
+            },
+            {
+                id: 7,
+                module: "Modulo 6",
+                question: "Un'amministrazione non pubblica per 6 mesi i dati sui pagamenti (art. 4-bis, D.Lgs. 33/2013) e l'OIV attesta l'inadempimento. Quali conseguenze può subire il dirigente responsabile?",
+                options: [
+                    "Solo richiamo disciplinare interno",
+                    "Sanzione ANAC da 500 a 10.000 euro (art. 47) e possibili conseguenze disciplinari",
+                    "Sanzione ANAC da 10.000 a 50.000 euro per violazione degli obblighi di trasparenza",
+                    "Nessuna conseguenza se l'omissione è involontaria"
+                ],
+                correct: 1,
+                explanation: "L'art. 47 del D.Lgs. 33/2013 prevede sanzione da 500 a 10.000 euro per il responsabile della mancata pubblicazione dei dati sui pagamenti. La sanzione colpisce la persona fisica responsabile, non l'ente. Possono aggiungersi conseguenze disciplinari interne e responsabilità dirigenziale."
+            }
+        ];
+
+        function startQuiz() {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.remove('hidden');
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            const question = questions[currentQuestion];
+            
+            // Update header
+            document.getElementById('current-module').textContent = question.module;
+            document.getElementById('current-question-num').textContent = currentQuestion + 1;
+            document.getElementById('progress-fill').style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
+            
+            // Update question
+            document.getElementById('question-text').textContent = question.question;
+            
+            // Clear and populate options
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'option-button';
+                button.innerHTML = `<span style="font-weight: 500; line-height: 1.4;">${option}</span>`;
+                button.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(button);
+            });
+            
+            // Hide explanation and next button
+            document.getElementById('explanation-container').classList.add('hidden');
+            document.getElementById('next-button-container').classList.add('hidden');
+            showExplanation = false;
+        }
+
+        function selectAnswer(answerIndex) {
+            if (showExplanation) return;
+            
+            selectedAnswers[currentQuestion] = answerIndex;
+            showExplanation = true;
+            
+            const question = questions[currentQuestion];
+            const buttons = document.querySelectorAll('#options-container button');
+            
+            // Update button styles
+            buttons.forEach((button, index) => {
+                button.disabled = true;
+                if (index === question.correct) {
+                    button.className = 'option-button correct';
+                    button.innerHTML += '<div style="margin-left: auto; flex-shrink: 0;"><svg class="icon" style="color: #10b981;" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22,4 12,14.01 9,11.01"/></svg></div>';
+                } else if (index === answerIndex && index !== question.correct) {
+                    button.className = 'option-button incorrect';
+                    button.innerHTML += '<div style="margin-left: auto; flex-shrink: 0;"><svg class="icon" style="color: #ef4444;" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg></div>';
+                } else {
+                    button.className = 'option-button disabled';
+                }
+                
+                // Make button display flex for icon alignment
+                button.style.display = 'flex';
+                button.style.alignItems = 'center';
+                button.style.justifyContent = 'space-between';
+            });
+            
+            // Show explanation
+            document.getElementById('explanation-text').textContent = question.explanation;
+            document.getElementById('explanation-container').classList.remove('hidden');
+            
+            // Show next button
+            if (currentQuestion === questions.length - 1) {
+                document.getElementById('next-button-text').textContent = 'Visualizza Risultati';
+            }
+            document.getElementById('next-button-container').classList.remove('hidden');
+        }
+
+        function nextQuestion() {
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function showResults() {
+            // Calculate score
+            score = 0;
+            questions.forEach((question, index) => {
+                if (selectedAnswers[index] === question.correct) {
+                    score++;
+                }
+            });
+            
+            const percentage = Math.round((score / questions.length) * 100);
+            
+            // Hide quiz page, show results
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('results-page').classList.remove('hidden');
+            
+            // Update score display
+            document.getElementById('final-score').textContent = score;
+            document.getElementById('percentage').textContent = percentage;
+            
+            // Update score color and message
+            const scoreElement = document.getElementById('final-score');
+            const titleElement = document.getElementById('score-title');
+            const messageElement = document.getElementById('score-message');
+            
+            let scoreData;
+            if (percentage >= 85) {
+                scoreElement.className = 'score-excellent';
+                titleElement.className = 'score-message-title score-excellent';
+                scoreData = {
+                    title: 'Eccellente Padronanza!',
+                    message: 'Dimostra una comprensione approfondita e operativa della normativa su trasparenza e anticorruzione. Ottima preparazione per affrontare le sfide quotidiane della PA.'
+                };
+            } else if (percentage >= 70) {
+                scoreElement.className = 'score-good';
+                titleElement.className = 'score-message-title score-good';
+                scoreData = {
+                    title: 'Buona Conoscenza',
+                    message: 'Solida base di conoscenza con alcune aree che potrebbero beneficiare di approfondimento, specialmente sui casi più complessi e sulle novità normative.'
+                };
+            } else if (percentage >= 60) {
+                scoreElement.className = 'score-fair';
+                titleElement.className = 'score-message-title score-fair';
+                scoreData = {
+                    title: 'Conoscenza Basilare',
+                    message: 'Comprensione dei principi fondamentali presente, ma è necessario consolidare gli aspetti operativi e procedurali per una piena applicazione pratica.'
+                };
+            } else {
+                scoreElement.className = 'score-poor';
+                titleElement.className = 'score-message-title score-poor';
+                scoreData = {
+                    title: 'Necessario Approfondimento',
+                    message: 'Si raccomanda un ripasso sistematico dei contenuti del seminario, con particolare attenzione agli aspetti pratici e alle recenti evoluzioni normative.'
+                };
+            }
+            
+            titleElement.textContent = scoreData.title;
+            messageElement.textContent = scoreData.message;
+            
+            // Show wrong answers analysis
+            const wrongAnswers = questions.filter((question, index) => selectedAnswers[index] !== question.correct);
+            
+            if (wrongAnswers.length === 0) {
+                document.getElementById('wrong-answers-section').classList.add('hidden');
+                document.getElementById('perfect-score').classList.remove('hidden');
+            } else {
+                document.getElementById('wrong-answers-title').textContent = `Analisi degli Errori (${wrongAnswers.length} domand${wrongAnswers.length === 1 ? 'a' : 'e'})`;
+                
+                const container = document.getElementById('wrong-answers-container');
+                container.innerHTML = '';
+                
+                wrongAnswers.forEach(question => {
+                    const questionIndex = questions.findIndex(q => q.id === question.id);
+                    const userAnswer = selectedAnswers[questionIndex];
+                    
+                    const wrongAnswerDiv = document.createElement('div');
+                    wrongAnswerDiv.className = 'wrong-answer-item';
+                    wrongAnswerDiv.innerHTML = `
+                        <div class="question-header">
+                            <div class="question-number">${questionIndex + 1}</div>
+                            <div style="flex: 1;">
+                                <div style="font-size: 0.875rem; color: #dc2626; font-weight: 500; margin-bottom: 0.25rem;">${question.module}</div>
+                                <h4 style="font-weight: 600; color: #1f2937; margin-bottom: 1rem;">${question.question}</h4>
+                                
+                                <div class="answer-comparison">
+                                    <div class="user-answer">
+                                        <div class="answer-label">La tua risposta:</div>
+                                        <div style="color: #1f2937;">${question.options[userAnswer]}</div>
+                                    </div>
+                                    
+                                    <div class="correct-answer">
+                                        <div class="answer-label">Risposta corretta:</div>
+                                        <div style="color: #1f2937;">${question.options[question.correct]}</div>
+                                    </div>
+                                    
+                                    <div class="detailed-explanation">
+                                        <div class="explanation-label">Spiegazione dettagliata:</div>
+                                        <div class="explanation-text">${question.explanation}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(wrongAnswerDiv);
+                });
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            selectedAnswers = {};
+            showExplanation = false;
+            score = 0;
+            
+            document.getElementById('results-page').classList.add('hidden');
+            document.getElementById('quiz-page').classList.add('hidden');
+            document.getElementById('landing-page').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
